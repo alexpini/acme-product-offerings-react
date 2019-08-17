@@ -16,6 +16,23 @@
       const {render} = ReactDOM;
       const root = document.querySelector('#root');
 
+      const Home = () => {
+        return (
+            <h1>Home</h1>
+        );
+      }
+
+      const Companies = () => {
+        return (
+          <div>
+            <h1>Companies</h1>
+            {
+              data.map( company => <li key={ company.id}> { company.name } </li>)
+            }
+          </div>
+        );
+      }
+
 
 
 
@@ -27,6 +44,9 @@
           products: [],
           offerings: []
         }
+      }
+      async componentDidMount() {
+        const [companies, products, offerings] = (await axios)
       }
     }
 
