@@ -33,13 +33,8 @@
       const {render} = ReactDOM;
       const root = document.querySelector('#root');
 
-      const Home = () => {
-        return (
-            <h1>Home</h1>
-        );
-      }
 
-      const Companies = () => {
+      const Companies = ({data}) => {
         return (
           <div>
             <h1>Companies</h1>
@@ -50,19 +45,30 @@
         );
       }
 
-      const Nav = (props) => {
-        console.log(props);
-        const companies = props.companies;
-        const products = props.products;
-
-        const path = props.location.pathname;
+      const Products = ({data}) => {
         return (
-          <div className='nav'>
-            <Link to='/companies'>Companies </Link>
-            <Link to='/products'>Products</Link>
+          <div>
+            <h1>Products</h1>
+            {
+              data.map( product => <li key={ product.id }> { product.name } </li>)
+            }
           </div>
         );
       }
+
+      // const Nav = (props) => {
+      //   console.log(props);
+      //   const companies = props.companies;
+      //   const products = props.products;
+
+      //   const path = props.location.pathname;
+      //   return (
+      //     <div className='nav'>
+      //       <Link to='/companies'>Companies </Link>
+      //       <Link to='/products'>Products</Link>
+      //     </div>
+      //   );
+      // }
 
 
 
@@ -92,10 +98,13 @@
         return (
           <HashRouter>
             <div>
-              <Route render={ (props)=> <Nav companies={ companies } location={ props.location }/> } />
               <div className='nav'>
-                <Route path='/companies' component= { Companies } />
-                <Route path='/products'>Products</Link>
+                <Link to='/companies'>Companies ({companies.length})</Link>
+                <Link to='/products'>Products ({products.length})</Link>
+              </div>
+              <div className='nav'>
+                <Route path='/companies' render = { () => <Companies data = { companies}  /> } />
+                <Route path='/products' render = { () => <Products data = { products} /> } />
               </div>
             </div>
           </HashRouter>
