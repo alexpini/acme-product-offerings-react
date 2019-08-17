@@ -45,11 +45,32 @@
           offerings: []
         }
       }
-      async componentDidMount() {
-        const [companies, products, offerings] = (await axios)
+      async componentDidMount(){
+          const urls = [
+            'https://acme-users-api-rev.herokuapp.com/api/companies',
+            'https://acme-users-api-rev.herokuapp.com/api/products',
+            'https://acme-users-api-rev.herokuapp.com/api/offerings'
+          ];
+          const responses = await Promise.all(urls.map(url=> axios.get(url)));
+          const [companies, products, offerings] = responses.map(response=> response.data);
+          this.setState({ companies, products, offerings });
+      }
+
+      render(){
+        const { companies, products, offerings } = this.state;
+        return (
+          <HashRouter>
+            <div>
+              <div className='nav'>
+                <Link to='/companies'>Companies ({ companies.length })</Link>
+                <Link to='/products'>Products ({ products.length })</Link>
+              </div>
+            </div>
+          </HashRouter>
+        );
       }
     }
-
+    render(<App />, root);
     </script>
 
   </body>
